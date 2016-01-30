@@ -37,11 +37,14 @@ public class PlayerMovement : MonoBehaviour
         }
 
         characterController.Move(movementDirection * Time.deltaTime);
-        PlayerSpiteController.Speed = movementDirection.magnitude;
 
-        if (movementDirection.magnitude > 0.1f)
+        PlayerSpiteController.Speed = movementDirection.magnitude;
+        Vector2 secondStick = new Vector2(Input.GetAxis("Horizontal2"), Input.GetAxis("Vertical2"));
+
+        if (secondStick.x != 0f || secondStick.y !=0f)
         {
-            PlayerSpiteController.YRotation = Quaternion.LookRotation(-movementDirection, transform.up).eulerAngles.y - 45f;
+            float angle = Mathf.Atan2(secondStick.x, secondStick.y) * Mathf.Rad2Deg;
+            PlayerSpiteController.YRotation = angle+180;
         }
     }
 }
