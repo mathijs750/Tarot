@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
             
         }
 
-            movementDirection *= SpeedCurve.Evaluate(movementDirection.magnitude) * SpeedMultiplier;
+        movementDirection *= SpeedCurve.Evaluate(movementDirection.magnitude) * SpeedMultiplier;
 
         characterController.Move(movementDirection * Time.deltaTime);
 
