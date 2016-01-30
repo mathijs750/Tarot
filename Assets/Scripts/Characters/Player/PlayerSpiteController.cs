@@ -5,8 +5,10 @@ public class PlayerSpiteController : MonoBehaviour
 {
     [SerializeField]
     private Transform SlashPivot;
+    private static Transform _slashPivot;
+
     private Animator Anim;
-    private Animator SlashAnim;
+    private static Animator SlashAnim;
     private SpriteRenderer Sr;
     private static float rotationAxis, movementSpeed;
 
@@ -17,21 +19,25 @@ public class PlayerSpiteController : MonoBehaviour
 
     public static float Speed
     {
-        set {  movementSpeed = value;  }
+        set { if (value > 0) { movementSpeed = value; } }
     }
 
     // Use this for initialization
     void Start()
     {
+        _slashPivot = SlashPivot;
         Sr = GetComponent<SpriteRenderer>();
         Anim = GetComponent<Animator>();
-        SlashAnim = SlashPivot.GetComponentInChildren<Animator>();
+        SlashAnim = _slashPivot.GetComponentInChildren<Animator>();
     }
 
-    public void Slash()
+    public static void Slash()
     {
-        SlashAnim.SetTrigger("fire");
-        Anim.SetTrigger("Attack");
+        SlashAnim.SetBool("fire",true);
+        Vector3 rot = new Vector3(0, rotationAxis, 0);
+        _slashPivot.Rotate(rot); 
+
+        SlashAnim.SetBool("fire", false);
     }
 
     void Update()
@@ -48,8 +54,6 @@ public class PlayerSpiteController : MonoBehaviour
             Sr.flipX = false;
         }
 
-        Vector3 rot = new Vector3(0, rotationAxis, 0);
-        SlashPivot.rotation = Quaternion.Euler(rot);
 
     }
 }

@@ -11,14 +11,12 @@ public class PlayerMovement : MonoBehaviour
     private bool canRun = true;
     private Vector3 movementDirection;
     private CharacterController characterController;
-    private PlayerSpiteController spritecontroller;
     #endregion
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
         movementDirection = Vector3.zero;
-        spritecontroller = GetComponentInChildren<PlayerSpiteController>();
     }
 
     void Update()
@@ -28,18 +26,22 @@ public class PlayerMovement : MonoBehaviour
         movementDirection = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0) * movementDirection;
         movementDirection = Vector3.ClampMagnitude(movementDirection, 1f);
 
-        PlayerSpiteController.Speed = movementDirection.magnitude;
-        if (movementDirection.magnitude > 0.1f)
+        if (Input.GetButton("Fire1"))
         {
-            PlayerSpiteController.YRotation = Quaternion.LookRotation(-movementDirection, transform.up).eulerAngles.y - 45f;
-        }
-
-        if (Input.GetButtonDown("Fire1"))
-        {
-            spritecontroller.Slash();
+            
         }
 
         movementDirection *= SpeedCurve.Evaluate(movementDirection.magnitude) * SpeedMultiplier;
+
         characterController.Move(movementDirection * Time.deltaTime);
+
+        PlayerSpiteController.Speed = movementDirection.magnitude;
+        Vector2 secondStick = new Vector2(Input.GetAxis("Horizontal2"), Input.GetAxis("Vertical2"));
+
+        if (secondStick.x != 0f || secondStick.y !=0f)
+        {
+            float angle = Mathf.Atan2(secondStick.x, secondStick.y) * Mathf.Rad2Deg;
+            PlayerSpiteController.YRotation = angle+180;
+        }
     }
 }
