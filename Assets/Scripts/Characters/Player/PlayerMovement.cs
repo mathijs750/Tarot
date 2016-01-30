@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
         movementDirection = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0) * movementDirection;
         movementDirection = Vector3.ClampMagnitude(movementDirection, 1f);
 
-        if (Input.GetButton("fire1"))
+        if (Input.GetButton("Fire1"))
         {
             movementDirection *= SpeedCurve.Evaluate(movementDirection.magnitude) * SpeedMultiplier;
         }
@@ -37,5 +37,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         characterController.Move(movementDirection * Time.deltaTime);
+
+        if (movementDirection.magnitude > 0.1f)
+        {
+            PlayerSpiteController.YRotation = Quaternion.LookRotation(-movementDirection, transform.up).eulerAngles.y - 45f;
+        }
     }
 }
