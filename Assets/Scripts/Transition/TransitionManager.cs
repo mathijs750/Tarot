@@ -14,7 +14,7 @@ public class TransitionManager : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = new GameObject().AddComponent<TransitionManager>();
+                instance = new GameObject("TransitionManager").AddComponent<TransitionManager>();
                 instance.Initialize();
             }
 
@@ -43,8 +43,6 @@ public class TransitionManager : MonoBehaviour
 
     private void Initialize()
     {
-        Application.targetFrameRate = 60;
-
         globeCamera = GameObject.Find("UICamera").GetComponent<Camera>();
         camCamera = GameObject.Find("WebcamCamera").GetComponent<Camera>();
         gameCamera = GameObject.Find("GameCamera").GetComponent<Camera>();
@@ -87,7 +85,7 @@ public class TransitionManager : MonoBehaviour
             float width = Mathf.Lerp(1, .8f, counter);
             float height = Mathf.Lerp(1, .85f, counter);
 
-            camCamera.rect = new Rect(x, y, width, height);
+            gameCamera.rect = new Rect(x, y, width, height);
 
             counter += Time.deltaTime / transitionDuration;
             yield return null;
@@ -110,7 +108,7 @@ public class TransitionManager : MonoBehaviour
             float width = Mathf.Lerp(.8f, 1, counter);
             float height = Mathf.Lerp(.85f, 1, counter);
 
-            camCamera.rect = new Rect(x, y, width, height);
+            gameCamera.rect = new Rect(x, y, width, height);
 
             counter += Time.deltaTime / transitionDuration;
             yield return null;

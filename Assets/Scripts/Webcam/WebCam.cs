@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
-using System.Threading;
 
 using com.google.zxing.qrcode;
 
@@ -83,11 +83,25 @@ public class WebCam : MonoBehaviour {
                     }
                 }
 
-                Debug.Log(new QRCodeReader().decode(d, W, H).Text);
+                SendQR(new QRCodeReader().decode(d, W, H).Text);
             }
             catch {}
 
             yield return null;
         }
+    }
+
+    private void SendQR(string QR)
+    {
+        int qrParse = int.Parse(QR);
+
+        Debug.Log("SendQR " + qrParse);
+
+        if (qrParse == 13 || qrParse == 14 || qrParse == 15 || qrParse == 16)
+            CardManager.Instance.ReceiveWeather((CardManager.WeatherCard)qrParse);
+        else if (qrParse == 1 || qrParse == 2 || qrParse == 3 || qrParse == 4 || qrParse == 5 || qrParse == 6)
+            CardManager.Instance.ReceiveEvent((CardManager.EventCard)qrParse);
+        else if (qrParse == 7 || qrParse == 8 || qrParse == 9 || qrParse == 10 || qrParse == 11 || qrParse == 12)
+            CardManager.Instance.ReceiveConsequence((CardManager.ConsequenceCard)qrParse);
     }
 }
