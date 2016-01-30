@@ -29,6 +29,7 @@ public class PlayerSpiteController : MonoBehaviour
     {
         Anim.SetFloat("Speed", movementSpeed);
         Anim.SetFloat("Rotation", rotationAxis);
+
         if (rotationAxis > 180f)
         {
             Sr.flipX = true;

@@ -28,13 +28,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButton("Fire1"))
         {
-            movementDirection *= SpeedCurve.Evaluate(movementDirection.magnitude) * SpeedMultiplier;
+            
         }
-        else
-        {
-            movementDirection = Vector3.ClampMagnitude(movementDirection, .5f);
+
             movementDirection *= SpeedCurve.Evaluate(movementDirection.magnitude) * SpeedMultiplier;
-        }
 
         characterController.Move(movementDirection * Time.deltaTime);
 
