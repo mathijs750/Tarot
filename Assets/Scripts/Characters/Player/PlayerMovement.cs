@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         characterController.Move(movementDirection * Time.deltaTime);
+        PlayerSpiteController.Speed = movementDirection.magnitude;
 
         if (movementDirection.magnitude > 0.1f)
         {
