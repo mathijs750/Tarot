@@ -21,7 +21,6 @@ public class PlayerSpiteController : MonoBehaviour
         set {  movementSpeed = value;  }
     }
 
-    // Use this for initialization
     void Start()
     {
         Sr = GetComponent<SpriteRenderer>();
@@ -33,6 +32,16 @@ public class PlayerSpiteController : MonoBehaviour
     {
         SlashAnim.SetTrigger("fire");
         Anim.SetTrigger("Attack");
+    }
+
+    public void Death()
+    {
+        Anim.SetTrigger("Dead");
+    }
+
+    public void Hurt()
+    {
+        Anim.SetTrigger("Hurt");
     }
 
     void Update()
@@ -48,6 +57,8 @@ public class PlayerSpiteController : MonoBehaviour
         {
             Sr.flipX = false;
         }
+
+
 
         Vector3 rot = new Vector3(0, rotationAxis, 0);
         SlashPivot.rotation = Quaternion.Euler(rot);

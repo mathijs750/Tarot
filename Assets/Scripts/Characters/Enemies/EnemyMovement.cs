@@ -39,7 +39,7 @@ public class EnemyMovement : MonoBehaviour
         movementVector *= stats.MovmentSpeed;
         characterController.Move(movementVector * Time.deltaTime);
 
-        if (Vector3.Distance(target.transform.position, transform.position) < 1f)
+        if (Vector3.Distance(target.transform.position, transform.position) < 1.3f)
         {
             StartCoroutine(HurtPlayer());
         }
@@ -52,6 +52,7 @@ public class EnemyMovement : MonoBehaviour
         {
             IsAlive = false;
             GetComponent<CapsuleCollider>().enabled = false;
+            StartCoroutine(DespawnTimer(2));
         }
     }
 
@@ -65,8 +66,9 @@ public class EnemyMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         target.GetComponent<PlayerMovement>().Hit(stats.AttackDamage);
+        Debug.Log(" Give player "  + stats.AttackDamage + "  damage" );
 
-        if (IsAlive && Vector3.Distance(target.transform.position, transform.position) < 1f)
+        if (IsAlive && Vector3.Distance(target.transform.position, transform.position) < 1.3f && GameManager.Instance.CurrentState == GameState.Playing)
         {
             StartCoroutine(HurtPlayer());
         }
