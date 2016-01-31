@@ -10,8 +10,9 @@ public class AudioSystem : MonoBehaviour {
 
     public AudioClip[] GrassSounds;
     public AudioClip[] PathSounds;
+    public AudioClip Slash;
 
-    public AudioSource Source;
+    public static AudioSource Source;
 
     IEnumerator PlayGrassAndWait()
     {
@@ -56,6 +57,12 @@ public class AudioSystem : MonoBehaviour {
             }
         }
 	}
+    public static void SlashSound(AudioSource source, AudioClip Slash)
+    {
+        Slash.LoadAudioData();
+        source.clip = Slash;
+        source.Play();
+    }
 }
 
 public class AudioHelpers
