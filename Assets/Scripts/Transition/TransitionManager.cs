@@ -78,7 +78,7 @@ public class TransitionManager : MonoBehaviour
 
         while (counter < 1)
         {
-            globeCamera.fieldOfView = Mathf.Lerp(35, 60, counter);
+            globeCamera.fieldOfView = Mathf.Lerp(25, 60, counter);
 
             float x = Mathf.Lerp(0, .1f, counter);
             float y = Mathf.Lerp(0, .15f, counter);
@@ -101,7 +101,7 @@ public class TransitionManager : MonoBehaviour
 
         while (counter < 1)
         {
-            globeCamera.fieldOfView = Mathf.Lerp(60, 35, counter);
+            globeCamera.fieldOfView = Mathf.Lerp(60, 25, counter);
 
             float x = Mathf.Lerp(.1f, 0, counter);
             float y = Mathf.Lerp(.15f, 0, counter);
@@ -132,8 +132,8 @@ public class TransitionManager : MonoBehaviour
             yield return null;
         }
 
-        gameCamera.transform.parent.gameObject.SetActive(false);
-        camCamera.transform.parent.gameObject.SetActive(true);
+        gameCamera.depth = -10;
+        camCamera.depth = 0;
 
         fromColor = toColor;
         toColor = new Color(0, 0, 0, 0);
@@ -171,8 +171,8 @@ public class TransitionManager : MonoBehaviour
             yield return null;
         }
 
-        gameCamera.transform.parent.gameObject.SetActive(true);
-        camCamera.transform.parent.gameObject.SetActive(false);
+        gameCamera.depth = 0;
+        camCamera.depth = -10;
 
         fromColor = toColor;
         toColor = new Color(0, 0, 0, 0);
