@@ -20,6 +20,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private GameObject player;
 
+    private bool isSpawining;
     private List<GameObject> pool;
 
     public GameObject SpawnMonster(int type)
@@ -66,7 +67,8 @@ public class EnemySpawner : MonoBehaviour
     {
         pool = new List<GameObject>(preSize);
         PrePolpulate();
-        StartCoroutine(SpawnTimer(2, 2));
+        isSpawining = true;
+        StartCoroutine(SpawnTimer(1.5f, 3));
     }
 
     private IEnumerator SpawnTimer(float minWait, float randomFactor)
@@ -75,6 +77,10 @@ public class EnemySpawner : MonoBehaviour
         var mon = GetMonster();
         mon.GetComponent<EnemyMovement>().Target = player;
         mon.SetActive(true);
-        StartCoroutine(SpawnTimer(minWait, randomFactor));
+
+        if (isSpawining)
+        {
+            StartCoroutine(SpawnTimer(minWait, randomFactor));
+        }
     }
 }
