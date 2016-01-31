@@ -79,5 +79,10 @@ public class PlayerMovement : MonoBehaviour
     public void Hit(float damage)
     {
         health -= damage;
+        if (health <=0)
+        {
+            Debug.LogWarning("Speler is dood");
+            GameManager.Instance.CurrentState = GameState.Dead;
+        }
     }
 }
