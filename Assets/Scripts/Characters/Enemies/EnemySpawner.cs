@@ -12,6 +12,8 @@ public class EnemySpawner : MonoBehaviour
     }
 
     [SerializeField]
+    private int MostersToSpawn, Difficulty;
+    [SerializeField]
     private int preSize = 8;
     [SerializeField]
     private Monster[] Monsters;
@@ -20,7 +22,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private GameObject player;
 
-    private bool isSpawining;
+    private bool isSpawining = false;
     private List<GameObject> pool;
 
     public GameObject SpawnMonster(int type)
@@ -67,8 +69,8 @@ public class EnemySpawner : MonoBehaviour
     {
         pool = new List<GameObject>(preSize);
         PrePolpulate();
-        isSpawining = true;
-        StartCoroutine(SpawnTimer(1.5f, 3));
+        //isSpawining = true;
+        //StartCoroutine(SpawnTimer(1.5f, 3));
     }
 
     private IEnumerator SpawnTimer(float minWait, float randomFactor)
