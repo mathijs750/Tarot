@@ -20,13 +20,29 @@ public class DeadguyAudio : MonoBehaviour {
         soundNotPlaying = true;
     }
 
+    IEnumerator PlaySoundAndWaitLess()
+    {
+        soundNotPlaying = false;
+        yield return new WaitForSeconds(1);
+        Source.pitch = Random.Range(minPitch, maxPitch);
+        AudioHelpers.LoadAndplayClip(Source, DeadguySounds[Random.Range(0, DeadguySounds.Length)]);
+        soundNotPlaying = true;
+    }
+
     void Start ()
     {
         Source = GetComponent<AudioSource>();
     }
-	
 
-	void OnTriggerStay (Collider col)
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "Player" && soundNotPlaying == true)
+        {
+            StartCoroutine(PlaySoundAndWaitLess());
+        }
+    }
+
+    void OnTriggerStay (Collider col)
     {
         if (col.tag == "Player" && soundNotPlaying == true)
         {
