@@ -7,6 +7,9 @@ public class EnemyMovement : MonoBehaviour
 {
     [SerializeField]
     private CharacterStats stats;
+    private float health;
+    private bool IsAlive;
+
     [SerializeField]
     private EnemyType type;
     private CharacterController characterController;
@@ -22,18 +25,26 @@ public class EnemyMovement : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         movementVector = Vector3.zero;
+        health = stats.Health;
+        IsAlive = true;
     }
 
     void Update()
     {
+        if (GameManager.Instance.CurrentState != GameState.Playing || !IsAlive) { return; }
+
         transform.LookAt(target.transform);
         movementVector = transform.forward;
         movementVector *= stats.MovmentSpeed;
         characterController.Move(movementVector * Time.deltaTime);
     }
 
-    public void Hit(float Damage)
+    public void Hit(float damage)
     {
-
+        health -= damage;
+        if (health <= 0)
+        {
+            IsAlive = false;
+        }
     }
 }
