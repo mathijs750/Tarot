@@ -13,6 +13,7 @@ public class PlayerSpiteController : MonoBehaviour
     public static float YRotation
     {
         set { if (value > 0) { rotationAxis = value; } }
+        get { return rotationAxis; }
     }
 
     public static float Speed

@@ -1,15 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameManager : MonoBehaviour {
+public enum GameState { Init, Playing, Dead, Paused }
+
+public class GameManager : MonoBehaviour
+{
 
     private static GameManager instance;
+    private static GameState _state, _pervState;
+
+    public GameState CurrentState
+    {
+        get { return _state; }
+        set
+        {
+            _pervState = _state;
+            _state = value;
+        }
+    }
+
+    void Awake()
+    {
+        _state = GameState.Playing;
+    }
+
     public static GameManager Instance
     {
         get
         {
             if (instance == null)
+            {
                 instance = new GameObject("GameManager").AddComponent<GameManager>();
+            }
 
             return instance;
         }
@@ -17,9 +39,12 @@ public class GameManager : MonoBehaviour {
 
     private GameManager() { }
 
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetKeyDown(KeyCode.Space))
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && _state == GameState.Paused)
+        {
             CardManager.Instance.ReadCards();
-	}
+        }
+    }
 }
