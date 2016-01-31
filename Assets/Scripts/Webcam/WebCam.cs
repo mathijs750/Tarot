@@ -48,7 +48,8 @@ public class WebCam : MonoBehaviour {
 
     void OnDestroy()
     {
-        StopCoroutine(qrRoutine);
+        if (qrRoutine != null)
+            StopCoroutine(qrRoutine);
         webcamTexture.Stop();
     }
 
