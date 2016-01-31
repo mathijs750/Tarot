@@ -12,6 +12,10 @@ public class EnemySpawner : MonoBehaviour
     }
 
     [SerializeField]
+    private GameObject Event;
+
+
+    [SerializeField]
     private int MostersToSpawn, Difficulty;
     [SerializeField]
     private int preSize = 8;
@@ -20,7 +24,10 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private Vector3 BoxExtent;
     [SerializeField]
-    private GameObject player;
+    private PlayerMovement player;
+
+    private CardManager.EventCard MainEvent;
+    private CardManager.ConsequenceCard Concequence;
 
     private bool isSpawining = false;
     private List<GameObject> pool;
@@ -69,20 +76,51 @@ public class EnemySpawner : MonoBehaviour
     {
         pool = new List<GameObject>(preSize);
         PrePolpulate();
-        //isSpawining = true;
-        //StartCoroutine(SpawnTimer(1.5f, 3));
     }
 
     private IEnumerator SpawnTimer(float minWait, float randomFactor)
     {
         yield return new WaitForSeconds(Random.Range(minWait, minWait * randomFactor));
         var mon = GetMonster();
-        mon.GetComponent<EnemyMovement>().Target = player;
+        mon.GetComponent<EnemyMovement>().Target = player.gameObject;
         mon.SetActive(true);
 
         if (isSpawining)
         {
             StartCoroutine(SpawnTimer(minWait, randomFactor));
+        }
+    }
+
+    void Initialize(CardManager.EventCard MainEvent, CardManager.ConsequenceCard Concequence)
+    {
+        this.Concequence = Concequence;
+        this.MainEvent = MainEvent;
+
+
+        if (MainEvent == CardManager.EventCard.RampSpoed || MainEvent == CardManager.EventCard.tRampSpoed )//|| GameManager.currentEvent == 3)
+        {
+            isSpawining = true;
+        }
+
+        switch (Concequence)
+        {
+            case CardManager.ConsequenceCard.Armoede:
+
+                break;
+            case CardManager.ConsequenceCard.Rijkdom:
+                player.Money += 10000;
+                break;
+            case CardManager.ConsequenceCard.tRijkdom:
+                player.Money += 10000;
+                break;
+            case CardManager.ConsequenceCard.PowerDown:
+                player.stats.AttackDamage -= 4;
+                player.stats.MovmentSpeed -= 2;
+                break;
+            case CardManager.ConsequenceCard.PowerUp:
+                player.stats.AttackDamage += 4;
+                player.stats.MovmentSpeed += 2;
+                break;
         }
     }
 }

@@ -8,8 +8,7 @@ public class PlayerMovement : MonoBehaviour
     #region Variables
     [SerializeField]
     private AnimationCurve SpeedCurve;
-    [SerializeField]
-    private CharacterStats stats;
+    public CharacterStats stats;
     private float health;
     private int money;
 

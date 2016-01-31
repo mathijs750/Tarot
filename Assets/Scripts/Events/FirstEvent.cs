@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FirstEvent : MonoBehaviour {
+public class FirstEvent : MonoBehaviour
+{
+	void Start ()
+    {
+	
+	}
+	
+public void ShowText()
+    {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    }
 }
