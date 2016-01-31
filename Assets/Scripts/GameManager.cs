@@ -19,6 +19,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void Awake()
+    {
+        _state = GameState.Playing;
+    }
+
     public static GameManager Instance
     {
         get

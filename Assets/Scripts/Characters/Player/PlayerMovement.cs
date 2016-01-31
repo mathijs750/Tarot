@@ -51,13 +51,17 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             spritecontroller.Slash();
-            for (int i = 0; i < 10; i++)
-            {
-                Vector3 wide = -transform.right * 2;
-                wide.x += -2 + (4 / i);
 
-                if (Physics.Raycast(transform.position, transform.forward + wide, out slashHit, 1f))
+            float arcAngle = 90f;
+            int numLines= 20;
+            Quaternion rot = Quaternion.Euler(0, PlayerSpiteController.YRotation, 0);
+            for (int  i = 0; i < numLines; i++)
+            {
+                Vector3 shootVec = rot  * Quaternion.AngleAxis(arcAngle * (i / numLines) - arcAngle / 2, Vector3.up) * Vector3.forward;
+                Debug.DrawRay(transform.position, shootVec, Color.magenta,30f);
+                if (Physics.Raycast(transform.position, shootVec, out slashHit, 10.0f))
                 {
+                    Debug.DrawLine(transform.position, slashHit.point, Color.green);
                     if (slashHit.transform.tag == "Enemy")
                     {
                         slashHit.transform.GetComponent<EnemyMovement>().Hit(stats.AttackDamage);
