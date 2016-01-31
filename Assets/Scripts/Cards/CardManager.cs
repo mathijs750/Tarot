@@ -134,8 +134,6 @@ public class CardManager : MonoBehaviour {
 
         yield return new WaitForSeconds(2.5f);
 
-        GameManager.Instance.SendCameraToArea();
-
         GameObject.FindObjectOfType<WebCam>().StartQR();
 
         Debug.Log("Waiting For Weather");
@@ -214,7 +212,7 @@ public class CardManager : MonoBehaviour {
         objectConsequenceTwo.GetComponent<CardAnimation>().StartSpiral();
         objectConsequenceTwo = null;
 
-        GameManager.Instance.ReceiveCards(weather);
+        GameManager.Instance.ReceiveCards(weather, eventCard, consequences[1], consequences[2]);
 
         yield return new WaitForSeconds(4);
 

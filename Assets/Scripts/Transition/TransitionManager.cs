@@ -80,10 +80,10 @@ public class TransitionManager : MonoBehaviour
         {
             globeCamera.fieldOfView = Mathf.Lerp(25, 60, counter);
 
-            float x = Mathf.Lerp(0, .1f, counter);
-            float y = Mathf.Lerp(0, .15f, counter);
-            float width = Mathf.Lerp(1, .8f, counter);
-            float height = Mathf.Lerp(1, .85f, counter);
+            float x = Mathf.Lerp(0, .2f, counter);
+            float y = Mathf.Lerp(0, .05f, counter);
+            float width = Mathf.Lerp(1, .6f, counter);
+            float height = Mathf.Lerp(1, .95f, counter);
 
             gameCamera.rect = new Rect(x, y, width, height);
 
@@ -103,10 +103,10 @@ public class TransitionManager : MonoBehaviour
         {
             globeCamera.fieldOfView = Mathf.Lerp(60, 25, counter);
 
-            float x = Mathf.Lerp(.1f, 0, counter);
-            float y = Mathf.Lerp(.15f, 0, counter);
-            float width = Mathf.Lerp(.8f, 1, counter);
-            float height = Mathf.Lerp(.85f, 1, counter);
+            float x = Mathf.Lerp(.2f, 0, counter);
+            float y = Mathf.Lerp(.05f, 0, counter);
+            float width = Mathf.Lerp(.6f, 1, counter);
+            float height = Mathf.Lerp(.95f, 1, counter);
 
             gameCamera.rect = new Rect(x, y, width, height);
 

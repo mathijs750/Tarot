@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     private bool gameStarted = false;
 
     private int currentEvent = 1;
+    public int CurrentEvent {  get { return currentEvent; } }
 
     void Awake()
     {
@@ -59,7 +60,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ReceiveCards(CardManager.WeatherCard weatherCard)
+    public void ReceiveCards(CardManager.WeatherCard weatherCard, CardManager.EventCard eventCard, CardManager.ConsequenceCard consequenceOne, CardManager.ConsequenceCard consequenceTwo)
     {
         switch (weatherCard)
         {
@@ -77,18 +78,14 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
+        // Send Cards to Event or sumthin
+
         currentEvent += 1;
     }
 
     public void NextEvent()
     {
         CardManager.Instance.ReadCards();
-    }
-
-    public void SendCameraToArea()
-    {
-        GameObject gameCam = GameObject.Find("GameCamera");
-        gameCam.transform.position = new Vector3(-500 + (500 * currentEvent), 150, -10);
     }
 
     private IEnumerator GameStartup()
@@ -123,18 +120,21 @@ public class GameManager : MonoBehaviour
 
         float counter = 0;
         Camera globeCamera = GameObject.Find("UICamera").GetComponent<Camera>();
+        GameObject fakeGlobe = GameObject.Find("FakeGlobe");
+        Destroy(GameObject.Find("StartText"));
 
         while (counter < 1)
         {
-            globeCamera.fieldOfView = Mathf.Lerp(80, 60, counter);
+            globeCamera.fieldOfView = Mathf.Lerp(80, 25, counter);
             counter += Time.deltaTime;
+            fakeGlobe.GetComponent<Renderer>().material.color = new Color(1, 1, 1, Mathf.Lerp(1, 0, counter));
             yield return null;
         }
 
         gameStarted = true;
 
-        yield return new WaitForSeconds(5);
+        Destroy(GameObject.Find("FakeGlobe"));
 
-        //GameObject.Find()
+        yield return new WaitForSeconds(5);
     }
 }
