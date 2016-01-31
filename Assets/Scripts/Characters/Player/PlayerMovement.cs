@@ -53,13 +53,13 @@ public class PlayerMovement : MonoBehaviour
             spritecontroller.Slash();
 
             float arcAngle = 90f;
-            int numLines= 20;
-            Quaternion rot = Quaternion.Euler(0, PlayerSpiteController.YRotation, 0);
-            for (int  i = 0; i < numLines; i++)
+            int numLines= 10;
+            Quaternion rot = Quaternion.Euler(0, PlayerSpiteController.YRotation-135, 0);
+            for (int  i = 1; i < numLines; i++)
             {
-                Vector3 shootVec = rot  * Quaternion.AngleAxis(arcAngle * (i / numLines) - arcAngle / 2, Vector3.up) * Vector3.forward;
-                Debug.DrawRay(transform.position, shootVec, Color.magenta,30f);
-                if (Physics.Raycast(transform.position, shootVec, out slashHit, 10.0f))
+                float floatCounter = ((float)i / (float)numLines);
+                Vector3 shootVec = rot  * Quaternion.AngleAxis(arcAngle * floatCounter - arcAngle / 2, Vector3.up) * Vector3.forward;
+                if (Physics.Raycast(transform.position, shootVec, out slashHit, 3.0f))
                 {
                     Debug.DrawLine(transform.position, slashHit.point, Color.green);
                     if (slashHit.transform.tag == "Enemy")
