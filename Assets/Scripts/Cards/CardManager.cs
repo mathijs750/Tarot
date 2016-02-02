@@ -212,7 +212,7 @@ public class CardManager : MonoBehaviour {
         objectConsequenceTwo.GetComponent<CardAnimation>().StartSpiral();
         objectConsequenceTwo = null;
 
-        GameManager.Instance.ReceiveCards(weather, eventCard, consequences[1], consequences[2]);
+        GameManager.Instance.ReceiveCards(weather, eventCard, consequences[0], consequences[1]);
 
         yield return new WaitForSeconds(4);
 

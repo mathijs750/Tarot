@@ -1,15 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class FirstEvent : MonoBehaviour
-{
-	void Start ()
+{	
+    public void ShowText(string Message)
     {
-	
-	}
-	
-public void ShowText()
-    {
-
+        GameObject.Find("UICanvas").transform.GetChild(1).GetComponent<Text>().text = Message;
     }
 }

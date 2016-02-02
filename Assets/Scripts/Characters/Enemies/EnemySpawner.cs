@@ -17,6 +17,7 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField]
     private int MostersToSpawn, Difficulty;
+    private int counter = 0;
     [SerializeField]
     private int preSize = 8;
     [SerializeField]
@@ -26,8 +27,11 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private PlayerMovement player;
 
+    private bool isTriggered = false;
+
     private CardManager.EventCard MainEvent;
-    private CardManager.ConsequenceCard Concequence;
+    private CardManager.ConsequenceCard Concequence1;
+    private CardManager.ConsequenceCard Concequence2;
 
     private bool isSpawining = false;
     private List<GameObject> pool;
@@ -81,9 +85,16 @@ public class EnemySpawner : MonoBehaviour
     private IEnumerator SpawnTimer(float minWait, float randomFactor)
     {
         yield return new WaitForSeconds(Random.Range(minWait, minWait * randomFactor));
+        counter++;
         var mon = GetMonster();
         mon.GetComponent<EnemyMovement>().Target = player.gameObject;
         mon.SetActive(true);
+
+        if (counter >= MostersToSpawn)
+        {
+            isSpawining = false;
+            GameManager.Instance.NextEvent();
+        }
 
         if (isSpawining)
         {
@@ -91,36 +102,101 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    void Initialize(CardManager.EventCard MainEvent, CardManager.ConsequenceCard Concequence)
+    public void OnTriggerEnter(Collider col)
     {
-        this.Concequence = Concequence;
+        Debug.Log("Enter Trigger " + GameManager.Instance.CurrentEvent);
+
+        if (isTriggered) return;
+
+        if (GameManager.Instance.CurrentEvent == 1)
+        {
+
+            FirstEvent eventG = Event.GetComponent<FirstEvent>();
+
+            switch (this.Concequence1)
+            {
+                case CardManager.ConsequenceCard.Armoede:
+
+                    eventG.ShowText("You are poor");
+
+                    break;
+                case CardManager.ConsequenceCard.Rijkdom:
+                    eventG.ShowText("You are rich");
+                    player.Money += 10000;
+
+                    break;
+                case CardManager.ConsequenceCard.tRijkdom:
+                    eventG.ShowText("You are rich");
+                    player.Money += 10000;
+
+                    break;
+                case CardManager.ConsequenceCard.PowerDown:
+                    eventG.ShowText("You have bad luck");
+                    player.stats.AttackDamage -= 4;
+                    player.stats.MovmentSpeed -= 2;
+
+                    break;
+                case CardManager.ConsequenceCard.PowerUp:
+                    eventG.ShowText("You have good luck");
+
+                    player.stats.AttackDamage += 4;
+                    player.stats.MovmentSpeed += 2;
+
+                    break;
+            }
+            switch (this.Concequence2)
+            {
+                case CardManager.ConsequenceCard.Armoede:
+
+                    eventG.ShowText("You are poor");
+
+                    break;
+                case CardManager.ConsequenceCard.Rijkdom:
+                    eventG.ShowText("You are rich");
+                    player.Money += 10000;
+
+                    break;
+                case CardManager.ConsequenceCard.tRijkdom:
+                    eventG.ShowText("You are rich");
+                    player.Money += 10000;
+
+                    break;
+                case CardManager.ConsequenceCard.PowerDown:
+                    eventG.ShowText("You have bad luck");
+                    player.stats.AttackDamage -= 4;
+                    player.stats.MovmentSpeed -= 2;
+
+                    break;
+                case CardManager.ConsequenceCard.PowerUp:
+                    eventG.ShowText("You have good luck");
+
+                    player.stats.AttackDamage += 4;
+                    player.stats.MovmentSpeed += 2;
+
+                    break;
+            }
+        }
+
+        isTriggered = true;
+    }
+
+    IEnumerator WaitTimer()
+    {
+        yield return new WaitForSeconds(15);
+        GameManager.Instance.NextEvent();
+    }
+
+
+    public void Initialize(CardManager.EventCard MainEvent, CardManager.ConsequenceCard Concequence1, CardManager.ConsequenceCard Concequence2)
+    {
+        this.Concequence1 = Concequence1;
+        this.Concequence2 = Concequence2;
         this.MainEvent = MainEvent;
 
 
-        if (MainEvent == CardManager.EventCard.RampSpoed || MainEvent == CardManager.EventCard.tRampSpoed )//|| GameManager.currentEvent == 3)
+        if (MainEvent == CardManager.EventCard.RampSpoed || MainEvent == CardManager.EventCard.tRampSpoed || GameManager.Instance.CurrentEvent == 3)
         {
             isSpawining = true;
-        }
-
-        switch (Concequence)
-        {
-            case CardManager.ConsequenceCard.Armoede:
-
-                break;
-            case CardManager.ConsequenceCard.Rijkdom:
-                player.Money += 10000;
-                break;
-            case CardManager.ConsequenceCard.tRijkdom:
-                player.Money += 10000;
-                break;
-            case CardManager.ConsequenceCard.PowerDown:
-                player.stats.AttackDamage -= 4;
-                player.stats.MovmentSpeed -= 2;
-                break;
-            case CardManager.ConsequenceCard.PowerUp:
-                player.stats.AttackDamage += 4;
-                player.stats.MovmentSpeed += 2;
-                break;
         }
     }
 }

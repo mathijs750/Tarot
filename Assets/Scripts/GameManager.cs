@@ -6,6 +6,7 @@ public enum GameState { Init, Playing, Dead, Paused }
 
 public class GameManager : MonoBehaviour
 {
+    
 
     private static GameManager instance;
     public static GameManager Instance
@@ -35,7 +36,7 @@ public class GameManager : MonoBehaviour
     private bool startupComplete = false;
     private bool gameStarted = false;
 
-    private int currentEvent = 1;
+    private int currentEvent = 0;
     public int CurrentEvent {  get { return currentEvent; } }
 
     void Awake()
@@ -77,10 +78,11 @@ public class GameManager : MonoBehaviour
                 GameObject.Find("Darkness").GetComponent<Image>().color = new Color(0, 0, 0, .4f);
                 break;
         }
+        currentEvent += 1;
 
         // Send Cards to Event or sumthin
+        GameObject.Find("EnemySpawner_" + currentEvent).GetComponent<EnemySpawner>().Initialize(eventCard, consequenceOne, consequenceTwo);
 
-        currentEvent += 1;
     }
 
     public void NextEvent()
@@ -134,7 +136,6 @@ public class GameManager : MonoBehaviour
         gameStarted = true;
 
         Destroy(GameObject.Find("FakeGlobe"));
-
-        yield return new WaitForSeconds(5);
+        _state = GameState.Playing;
     }
 }
